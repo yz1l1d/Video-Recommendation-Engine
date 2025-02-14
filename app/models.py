@@ -1,5 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from .database import Base
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy.orm import declarative_base
+from app.database import Base
+
+Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"
@@ -9,5 +12,16 @@ class User(Base):
 class Video(Base):
     __tablename__ = "videos"
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    category_id = Column(Integer)
+    title = Column(String, index=True)
+    category = Column(String)
+    url = Column(String, unique=True)
+    likes = Column(Integer, default=0)
+    views = Column(Integer, default=0)
+
+class UserInteraction(Base):
+    __tablename__ = "user_interactions"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    video_id = Column(Integer, ForeignKey("videos.id"))
+    interaction_type = Column(String)  # viewed, liked, rated, etc.
+    score = Column(Float, default=0)

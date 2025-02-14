@@ -10,11 +10,11 @@ A sophisticated recommendation system that suggests personalized video content b
 
 This project implements a video recommendation algorithm that:
 
-* Delivers personalized content recommendations
-* Handles cold start problems using mood-based recommendations
-* Utilizes deep neural networks for content analysis
-* Integrates with external APIs for data collection
-* Implements efficient data caching and pagination
+1. Delivers personalized content recommendations
+1. Handles cold start problems using mood-based recommendations
+1. Utilizes deep neural networks for content analysis
+1. Integrates with external APIs for data collection
+1. Implements efficient data caching and pagination
 
 ## 🛠️ Technology Stack
 
