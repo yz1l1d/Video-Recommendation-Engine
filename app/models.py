@@ -1,27 +1,26 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from app.database import Base
-
-Base = declarative_base()
+import datetime
 
 class User(Base):
     __tablename__ = "users"
+
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    full_name = Column(String, index=True)
 
-class Video(Base):
-    __tablename__ = "videos"
+    posts = relationship("Post", back_populates="author")
+
+class Post(Base):
+    __tablename__ = "posts"
+
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
-    category = Column(String)
-    url = Column(String, unique=True)
-    likes = Column(Integer, default=0)
-    views = Column(Integer, default=0)
+    content = Column(Text)
+    category = Column(String, index=True)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    author_id = Column(Integer, ForeignKey("users.id"))
 
-class UserInteraction(Base):
-    __tablename__ = "user_interactions"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    video_id = Column(Integer, ForeignKey("videos.id"))
-    interaction_type = Column(String)  # viewed, liked, rated, etc.
-    score = Column(Float, default=0)
+    author = relationship("User", back_populates="posts")

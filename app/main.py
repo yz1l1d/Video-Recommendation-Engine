@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.routes import data
 
 app = FastAPI()
 
@@ -6,6 +7,4 @@ app = FastAPI()
 def read_root():
     return {"message": "Welcome to the Video Recommendation Engine!"}
 
-@app.get("/feed")
-def get_feed(username: str):
-    return {"message": f"Feed for {username}"}
+app.include_router(data.router, prefix="/data", tags=["Data Collection"])
